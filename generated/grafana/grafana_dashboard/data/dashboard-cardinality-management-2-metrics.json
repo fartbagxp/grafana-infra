@@ -1,0 +1,508 @@
+{
+  "__elements": {},
+  "__inputs": [
+    {
+      "description": "",
+      "label": "Cardinality",
+      "name": "DS_CARDINALITY",
+      "pluginId": "grafanacloud-cardinality-datasource",
+      "pluginName": "Grafana cardinality",
+      "type": "datasource"
+    }
+  ],
+  "__requires": [
+    {
+      "id": "grafana",
+      "name": "Grafana",
+      "type": "grafana",
+      "version": "9.5.1"
+    },
+    {
+      "id": "grafanacloud-cardinality-datasource",
+      "name": "Grafana cardinality",
+      "type": "datasource",
+      "version": "2.0.1"
+    },
+    {
+      "id": "marcusolsson-treemap-panel",
+      "name": "Treemap",
+      "type": "panel",
+      "version": "2.0.1"
+    },
+    {
+      "id": "stat",
+      "name": "Stat",
+      "type": "panel",
+      "version": ""
+    },
+    {
+      "id": "table",
+      "name": "Table",
+      "type": "panel",
+      "version": ""
+    },
+    {
+      "id": "text",
+      "name": "Text",
+      "type": "panel",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations \u0026 Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "Cardinality management metrics dashboard",
+  "editable": false,
+  "fiscalYearStartMonth": 0,
+  "gnetId": 19535,
+  "graphTooltip": 0,
+  "id": 21,
+  "links": [
+    {
+      "asDropdown": true,
+      "icon": "dashboard",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Cardinality management - overview",
+      "tooltip": "",
+      "type": "link",
+      "url": "/d/cardinality-management/?${datasource:queryparam}"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": null,
+      "gridPos": {
+        "h": 12,
+        "w": 7,
+        "x": 0,
+        "y": 0
+      },
+      "id": 32,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "This dashboard helps you understand the cardinality of a single metric. It shows you the count of series with this metric name and how that count relates to the total number of time series in your data source. Then it helps you understand which labels associated with that metric have the greatest impact on its cardinality. \n\nEach time series is a unique combination of key-value label pairs. Therefore a label key with a lot of values can create a lot of time series for a particular metric. If you’re trying to decrease the cardinality of a metric, start by looking at the labels with the highest number of values. \n\nUse the selector at the top of the page to pick which metric you’d like to inspect. \n",
+        "mode": "markdown"
+      },
+      "pluginVersion": "9.5.1",
+      "title": "💡Tips",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "grafanacloud-cardinality-datasource",
+        "uid": "grafanacloud-usagov-cardinality-management"
+      },
+      "description": "The number of time series with metric name ${metric}.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": []
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 8,
+        "x": 7,
+        "y": 0
+      },
+      "id": 27,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "vertical",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^Number of series$/",
+          "values": false
+        },
+        "text": {},
+        "textMode": "value"
+      },
+      "pluginVersion": "9.5.1",
+      "targets": [
+        {
+          "cardinalityType": "series",
+          "datasource": {
+            "type": "grafanacloud-cardinality-datasource",
+            "uid": "grafanacloud-usagov-cardinality-management"
+          },
+          "parameterList": [
+            "${metric}"
+          ],
+          "refId": "A",
+          "resultType": "subtotal",
+          "targetDatasource": "${datasource}"
+        }
+      ],
+      "title": "Number of series",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafanacloud-cardinality-datasource",
+        "uid": "grafanacloud-usagov-cardinality-management"
+      },
+      "description": "Count all time series with metric name ${metric} and express that as a percentage of the total number of time series in this data source.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": []
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 9,
+        "x": 15,
+        "y": 0
+      },
+      "id": 28,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "vertical",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^Percentage of total series$/",
+          "values": false
+        },
+        "text": {},
+        "textMode": "value"
+      },
+      "pluginVersion": "9.5.1",
+      "targets": [
+        {
+          "cardinalityType": "series",
+          "datasource": {
+            "type": "grafanacloud-cardinality-datasource",
+            "uid": "grafanacloud-usagov-cardinality-management"
+          },
+          "parameterList": [
+            "${metric}"
+          ],
+          "refId": "A",
+          "resultType": "subtotal",
+          "targetDatasource": "${datasource}"
+        }
+      ],
+      "title": "Percentage of total series",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafanacloud-cardinality-datasource",
+        "uid": "grafanacloud-usagov-cardinality-management"
+      },
+      "description": "Shows the labels attached to metric ${metric}. You see both the label name and then the number of values for each label name. Label names are sorted by the number of values they have in descending order.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "links": [
+            {
+              "title": "View drill down of label: ${__data.fields.Label}",
+              "url": "d/cardinality-management-label-detail/?var-label=${__data.fields.Label}\u0026${datasource:queryparam}\u0026${filter:queryparam}"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 50
+              },
+              {
+                "color": "red",
+                "value": 100
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 17,
+        "x": 7,
+        "y": 2
+      },
+      "id": 10,
+      "options": {
+        "labelFields": [],
+        "tiling": "treemapSquarify"
+      },
+      "pluginVersion": "8.0.6",
+      "targets": [
+        {
+          "cardinalityType": "metrics",
+          "datasource": {
+            "type": "grafanacloud-cardinality-datasource",
+            "uid": "grafanacloud-usagov-cardinality-management"
+          },
+          "limit": 500,
+          "parameterList": [
+            "${metric}"
+          ],
+          "refId": "A",
+          "resultType": "details",
+          "targetDatasource": "${datasource}"
+        }
+      ],
+      "title": "Labels attached to metric ${metric}",
+      "transformations": [],
+      "type": "marcusolsson-treemap-panel"
+    },
+    {
+      "datasource": {
+        "type": "grafanacloud-cardinality-datasource",
+        "uid": "grafanacloud-usagov-cardinality-management"
+      },
+      "description": "Shows the labels attached to metric ${metric}. You see both the label name and then the number of values for each label name. Label names are sorted by the number of values they have in descending order.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Label"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "View detailed cardinality dashboard for label: ${__data.fields.Label}",
+                    "url": "d/cardinality-management-label-detail/?var-label=${__data.fields.Label}\u0026${datasource:queryparam}\u0026${filter:queryparam}\u0026var-filter=__name__%7C%3D%7C${metric}"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Number of values"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 132
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 12
+      },
+      "id": 21,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "9.5.1",
+      "targets": [
+        {
+          "cardinalityType": "metrics",
+          "datasource": {
+            "type": "grafanacloud-cardinality-datasource",
+            "uid": "grafanacloud-usagov-cardinality-management"
+          },
+          "exampleCount": "3",
+          "parameterList": [
+            "${metric}"
+          ],
+          "refId": "A",
+          "resultType": "details",
+          "targetDatasource": "${datasource}"
+        }
+      ],
+      "title": "Labels attached to metric ${metric}",
+      "type": "table"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [
+    "cardinality-management",
+    "grafanacloud"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "grafanacloud-cardinality-management",
+          "value": "grafanacloud-cardinality-management"
+        },
+        "description": "Datasource adapter to provide metrics cardinality",
+        "hide": 2,
+        "name": "cardinality",
+        "options": [
+          {
+            "selected": false,
+            "text": "grafanacloud-cardinality-management",
+            "value": "grafanacloud-cardinality-management"
+          }
+        ],
+        "query": "grafanacloud-cardinality-management",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "current": {
+          "selected": true,
+          "value": "grafanacloud-prom"
+        },
+        "description": "Choose a Prometheus data source for cardinality management",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data source",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "queryValue": "",
+        "refresh": 2,
+        "regex": "(?!grafanacloud-usage|grafanacloud-ml-metrics).+",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "current": {},
+        "datasource": {
+          "type": "grafanacloud-cardinality-datasource",
+          "uid": "grafanacloud-usagov-cardinality-management"
+        },
+        "definition": "metrics list {\"targetDatasource\":\"${datasource}\"}",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Metric",
+        "multi": false,
+        "name": "metric",
+        "options": [],
+        "query": {
+          "cardinalityType": "metrics",
+          "resultType": "list",
+          "targetDatasource": "${datasource}"
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
+        "description": "A label-value filter to be used for all cardinality queries",
+        "filters": [],
+        "hide": 0,
+        "label": "Filter",
+        "name": "filter",
+        "skipUrlSync": false,
+        "type": "adhoc"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {
+    "hidden": true
+  },
+  "timezone": "",
+  "title": "Cardinality management - 2 - metrics",
+  "uid": "cardinality-management-metrics-detail",
+  "version": 1,
+  "weekStart": ""
+}
